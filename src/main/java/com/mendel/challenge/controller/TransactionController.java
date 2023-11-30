@@ -1,6 +1,7 @@
 package com.mendel.challenge.controller;
 
 import com.mendel.challenge.dto.TransactionDto;
+import com.mendel.challenge.dto.TransitiveSumDto;
 import com.mendel.challenge.exception.TransactionException;
 import com.mendel.challenge.service.TransactionService;
 import lombok.extern.log4j.Log4j2;
@@ -55,5 +56,17 @@ public class TransactionController {
         }
         List<Long> transactionIds = transactionService.getTransactionsByType(type);
         return ResponseEntity.ok(transactionIds);
+    }
+
+    @GetMapping("/sum/{transactionId}")
+    public ResponseEntity<TransitiveSumDto> getTransactionsSum(
+        @PathVariable Long transactionId
+    ) {
+        if (transactionId < 0) {
+            throw new TransactionException(
+                    HttpStatus.BAD_REQUEST, "\"TransactionId\" cannot be negative");
+        }
+        Double sum = transactionService.getTransitiveTransactionsAmount(transactionId);
+        return ResponseEntity.ok(new TransitiveSumDto(sum));
     }
 }

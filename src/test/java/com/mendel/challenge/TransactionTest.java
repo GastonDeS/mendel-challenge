@@ -60,6 +60,27 @@ public class TransactionTest {
         assertEquals(emptyTransactionIds, transactionPersistence.getTransactionsByType("NOT_SAVED_TYPE"));
     }
 
+    @Test
+    public void getFullTransitiveTransactionsAmount() {
+        makeTransactionsWithParent();
+
+        assertEquals(600.0, transactionPersistence.getTransitiveTransactionsAmount(1L));
+    }
+
+    @Test
+    public void getNoChildTransitiveTransactionsAmount() {
+        makeTransactionsWithParent();
+
+        assertEquals(300.0, transactionPersistence.getTransitiveTransactionsAmount(3L));
+    }
+
+    @Test
+    public void getPartialTransitiveTransactionsAmount() {
+        makeTransactionsWithParent();
+
+        assertEquals(500.0, transactionPersistence.getTransitiveTransactionsAmount(2L));
+    }
+
 
 
     private void makeTransactions() {
@@ -70,7 +91,7 @@ public class TransactionTest {
 
     private void makeTransactionsWithParent() {
         transaction2.setParentId(1L);
-        transaction3.setParentId(1L);
+        transaction3.setParentId(2L);
 
         makeTransactions();
     }
