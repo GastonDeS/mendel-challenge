@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,7 +21,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PutMapping("/{transactionId}")
-    public ResponseEntity<?> createTransaction(
+    public ResponseEntity<TransactionDto> createTransaction(
         @PathVariable Long transactionId,
         @RequestBody TransactionDto transactionDto
     ) {
@@ -44,4 +45,15 @@ public class TransactionController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/types/{type}")
+    public ResponseEntity<List<Long>> getTransactionsByType(
+        @PathVariable String type
+    ) {
+        if (type == null || type.isEmpty()) {
+            throw new TransactionException(
+                    HttpStatus.BAD_REQUEST, "\"type\" cannot be empty");
+        }
+        List<Long> transactionIds = transactionService.getTransactionsByType(type);
+        return ResponseEntity.ok(transactionIds);
+    }
 }

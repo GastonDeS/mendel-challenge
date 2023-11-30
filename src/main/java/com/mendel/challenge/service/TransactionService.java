@@ -7,6 +7,7 @@ import com.mendel.challenge.persistence.TransactionPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -21,4 +22,7 @@ public class TransactionService {
         return savedTransaction.map(TransactionMapper::toDto);
     }
 
+    public List<Long> getTransactionsByType(String type) {
+        return transactionPersistence.getTransactionsByType(type);
+    }
 }

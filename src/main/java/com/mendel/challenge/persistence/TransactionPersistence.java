@@ -21,4 +21,14 @@ public class TransactionPersistence {
     public List<Transaction> getTransactions() {
         return new ArrayList<>(transactions.values());
     }
+
+    public List<Long> getTransactionsByType(String type) {
+        List<Long> transactionIds = new ArrayList<>();
+        for (Transaction transaction : transactions.values()) {
+            if (transaction.getType().equals(type)) {
+                transactionIds.add(transaction.getId());
+            }
+        }
+        return transactionIds;
+    }
 }
