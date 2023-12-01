@@ -23,14 +23,14 @@ public class TransactionController {
     @Autowired
     private TransactionService transactionService;
 
-    @PutMapping("/{transactionId}")
+    @PutMapping("/{transaction_id}")
     public ResponseEntity<?> createTransaction(
-        @PathVariable Long transactionId,
+        @PathVariable("transaction_id") Long transactionId,
         @RequestBody TransactionDto transactionDto
     ) {
         if (transactionId < 0) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "\"TransactionId\" cannot be negative");
+                    HttpStatus.BAD_REQUEST, "\"transaction_id\" cannot be negative");
         }
         if (transactionDto.parentId() != null && transactionDto.parentId().equals(transactionId)) {
             throw new ResponseStatusException(
@@ -61,13 +61,13 @@ public class TransactionController {
         return ResponseEntity.ok(transactionIds);
     }
 
-    @GetMapping("/sum/{transactionId}")
+    @GetMapping("/sum/{transaction_id}")
     public ResponseEntity<TransitiveSumDto> getTransactionsSum(
-        @PathVariable Long transactionId
+        @PathVariable("transaction_id") Long transactionId
     ) {
         if (transactionId < 0) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "\"TransactionId\" cannot be negative");
+                    HttpStatus.BAD_REQUEST, "\"transaction_id\" cannot be negative");
         }
         Double sum = transactionService.getTransitiveTransactionsAmount(transactionId);
         return ResponseEntity.ok(new TransitiveSumDto(sum));
