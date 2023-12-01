@@ -12,7 +12,7 @@ public class TransactionPersistence {
 
     private final Map<Long, Transaction> transactions = new HashMap<>();
 
-    public Optional<Transaction> createTransaction(Transaction transaction) {
+    public Optional<Transaction> createTransaction(final Transaction transaction) {
         if (transaction.getParentId() != null && !transactions.containsKey(transaction.getParentId())) {
             throw new IllegalArgumentException("Parent transaction not found");
         }
@@ -24,8 +24,12 @@ public class TransactionPersistence {
         return new ArrayList<>(transactions.values());
     }
 
-    public List<Long> getTransactionsByType(String type) {
-        List<Long> transactionIds = new ArrayList<>();
+    public void deleteTransactions() {
+        transactions.clear();
+    }
+
+    public List<Long> getTransactionsByType(final String type) {
+        final List<Long> transactionIds = new ArrayList<>();
         for (Transaction transaction : transactions.values()) {
             if (transaction.getType().equals(type)) {
                 transactionIds.add(transaction.getId());
@@ -35,7 +39,7 @@ public class TransactionPersistence {
     }
 
     public Double getTransitiveTransactionsAmount(Long transactionId) {
-        Transaction transaction = transactions.get(transactionId);
+        final Transaction transaction = transactions.get(transactionId);
         if (transaction == null) {
             return 0.0;
         }

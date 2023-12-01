@@ -2,6 +2,8 @@ package com.mendel.challenge;
 
 import com.mendel.challenge.model.Transaction;
 import com.mendel.challenge.persistence.TransactionPersistence;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,11 @@ public class TransactionTest {
 
     @Autowired
     private TransactionPersistence transactionPersistence;
+
+    @BeforeEach
+    public void deleteTransactions() {
+        transactionPersistence.deleteTransactions();
+    }
 
     @Test
     public void createTransactions() {
@@ -57,7 +64,7 @@ public class TransactionTest {
     @Test
     public void getEmptyTransactionsByType() {
         List<Long> emptyTransactionIds = new ArrayList<>();
-        assertEquals(emptyTransactionIds, transactionPersistence.getTransactionsByType("NOT_SAVED_TYPE"));
+        assertEquals(emptyTransactionIds, transactionPersistence.getTransactionsByType("food"));
     }
 
     @Test

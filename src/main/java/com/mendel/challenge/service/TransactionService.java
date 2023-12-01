@@ -6,15 +6,16 @@ import com.mendel.challenge.model.Transaction;
 import com.mendel.challenge.persistence.TransactionPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Service
 public class TransactionService {
 
     @Autowired
-    public TransactionPersistence transactionPersistence;
+    private TransactionPersistence transactionPersistence;
 
     public Optional<TransactionDto> createTransaction(Long transactionId, TransactionDto transactionDto) {
         Transaction transaction = TransactionMapper.toModel(transactionId, transactionDto);
@@ -22,11 +23,11 @@ public class TransactionService {
         return savedTransaction.map(TransactionMapper::toDto);
     }
 
-    public List<Long> getTransactionsByType(String type) {
+    public List<Long> getTransactionsByType(final String type) {
         return transactionPersistence.getTransactionsByType(type);
     }
 
-    public Double getTransitiveTransactionsAmount(Long transactionId) {
+    public Double getTransitiveTransactionsAmount(final Long transactionId) {
         return transactionPersistence.getTransitiveTransactionsAmount(transactionId);
     }
 }
