@@ -13,8 +13,13 @@ docker build -t mendel-backend-challenge .
 ```
 
 ### Iniciar el contenedor:
+Corriendolo en foreground:
 ```bash
 docker run -it -p 8080:8080 mendel-backend-challenge
+```
+o en background:
+```bash
+docker run -d -p 8080:8080 mendel-backend-challenge
 ```
 
 ## Detalles de la Implementación

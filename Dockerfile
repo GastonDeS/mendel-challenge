@@ -6,7 +6,7 @@ RUN mvn clean install
 
 ############################################
 
-FROM eclipse-temurin:17-jre-jammy
+FROM amazoncorretto:17-alpine
 
 COPY --from=builder /usr/src/app/target/*.jar /usr/app/*.jar
 

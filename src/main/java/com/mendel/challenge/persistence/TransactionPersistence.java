@@ -2,11 +2,11 @@ package com.mendel.challenge.persistence;
 
 import com.mendel.challenge.model.Transaction;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Component
+@Repository
 @Log4j2
 public class TransactionPersistence {
 
